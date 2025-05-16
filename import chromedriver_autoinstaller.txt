@@ -1,0 +1,45 @@
+import chromedriver_autoinstaller
+chromedriver_autoinstaller.install()
+chromedriver_path = chromedriver_autoinstaller.install()
+def extract_links(html):
+                if not html or not isinstance(html, str) or html.strip() == "":
+                        print("Invalid or empty HTML content.")
+                        return []
+
+                soup = BeautifulSoup(html, 'html.parser')
+                links = []
+                for a in soup.select('div.yuRUbf > a'):
+                        href = a['href']
+                        if href.startswith('http'):
+                                links.append(href)
+                return links
+
+
+        def search_with_selenium(app):
+                # Set up Chrome options to use your real user profile
+                options = Options()
+                options.add_argument(r"--user-data-dir=C:\Users\Asus\AppData\Local\Google\Chrome\User Data")
+                options.add_argument(r"--profile-directory=AI Engineer")  # Or 'Profile 1', 'Profile 2', etc. based on your setup
+
+                # Initialize the WebDriver with the options
+                driver = webdriver.Chrome(service=Service("chromedriver_path"), options=options)
+                
+                try:
+                        # Perform the search on DuckDuckGo
+                        driver.get(f"https://duckduckgo.com/?q={app}")
+
+                        # Wait for the first result to be visible
+                        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a.result__a')))
+                        
+                        # Get the HTML content of the page
+                        html = driver.page_source
+                        print(html[:500])  # Print the first 500 characters for debugging
+
+                        return html
+                except Exception as e:
+                        print(f"Error: {e}")
+                        return None
+                finally:
+                        driver.quit()  # Make sure to close the browser after the task is done
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service

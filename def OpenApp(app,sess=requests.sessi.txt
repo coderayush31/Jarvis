@@ -1,0 +1,42 @@
+def OpenApp(app,sess=requests.session()):
+  try:
+        appopen(app, match_closest=True, output=True, throw_error=True) # Try to open the app.
+        return True
+  except Exception as e:
+        # Nested function to extract links from HTML content.
+
+    def extract_links(html):
+        if html is None:
+            return []
+        soup = BeautifulSoup(html, 'html.parser')
+        links = []
+        for a in soup.find_all('a', href=True):
+            href = a['href']
+            if href.startswith("/url?q="):
+                actual_url = href.split("/url?q=")[1].split("&")[0]
+                links.append(actual_url)
+        return links                                                                                                                       # OLD CODE links = soup. find_all('a', {'jsname': 'UWckNb'})#return [link.get('href') for link in links]
+        
+       # Nested function to perform a Google search and retrieve links.
+    def search_google(query): 
+        url = f"https://www.google.com/search?q={query}" 
+        #Construct the Google search URL. 
+        headers = {"User-Agent": useragent} # Use the predefined user-agent. 
+        response = sess.get(url, headers=headers) #Perform the GET request. 
+        if response.status_code == 200: 
+           return response.text # Return the HTML content. 
+        else: 
+           print("Failed to retrieve search results.") # Print an error message. 
+        return None 
+    html = search_google(app)
+    if not html:
+      print("Search failed. No HTML returned.")
+      return False
+    results = extract_links(html)
+    if results:
+        webopen(results[0])
+        return True
+    else:
+        print(f"No results found on Google for '{app}'.")
+        return False    
+# Function to close an application.
