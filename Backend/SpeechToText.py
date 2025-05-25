@@ -95,7 +95,7 @@ def QueryModifier(Query):
       if query_words[-1][-1] in ['.', '?', '1']: 
         new_query= new_query[:-1] + "?" 
       else: 
-        new_query= "3" 
+        new_query+= "? " 
     else: 
     #Add a period if the query is not a question. 
        if query_words[-1][-1] in ['.', '?', '1']:
