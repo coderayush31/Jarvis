@@ -1,4 +1,4 @@
-# 🤖 Jarvis: Your Personal AI Assistant
+# 🤖 Jarvis: Ayush's Personal AI Assistant
 
 Jarvis is a smart, voice-enabled AI assistant built with **Python** and **PyQt5**, designed to feel like a real-time, futuristic companion. It includes a sleek animated UI, voice interaction, Stable Diffusion image generation (both **local** and **online**), and customizable modules to handle various tasks.
 
